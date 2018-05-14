@@ -5,6 +5,7 @@ const Apple = require('./apple')
 
 const ROWS = 20
 const COLUMNS = 40
+const DELTATIME = 200
 
 const draw = (board, border, level) => {
   console.log('\x1bc')
@@ -40,6 +41,8 @@ const gameOver = x => {
   process.exit(0)
 }
 
+const getDeltaTime = (x, y) => x - y * 4
+
 const loop = (brd, snk, apl, scr) => {
   const board = brd || Board.make(ROWS, COLUMNS)
   const snake = snk ||Snake.make(2, 2)
@@ -57,7 +60,7 @@ const loop = (brd, snk, apl, scr) => {
 
   setTimeout(
     loop,
-    100, 
+    getDeltaTime(DELTATIME, apple.level), 
     brd, 
     Snake.move(input(collided ? Snake.grow(snake) : snake), COLUMNS, ROWS), 
     collided ? Apple.make(spawn, apple.level + 1): apple, 
