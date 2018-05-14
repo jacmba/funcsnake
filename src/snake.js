@@ -30,6 +30,7 @@ const move = (x, maxX, maxY) => x.reduce((p, x, i, xs) => {
 
 const turn = (x, y, [head, ...tail]) => {
   if(!head) return []
+  if(head.dx === -x || head.dy === -y)return Object.freeze([head].concat(tail))
   return Object.freeze([{
     x: head.x,
     y: head.y,
