@@ -1,9 +1,9 @@
-const make = (x, y) => [{
+const make = (x, y) => Object.freeze([{
   x: x,
   y: y,
   dx: 1,
   dy: 0
-}]
+}])
 
 const isLocated = (x, y, [head, ...tail]) => {
   if(!head) return false
@@ -19,15 +19,20 @@ const move = (x, maxX, maxY) => x.map(x => ({
 }))
 
 const turn = (x, y, [head, ...tail]) => {
-  
+  return [{
+    x: head.x,
+    y: head.y,
+    dx: x,
+    dy: y
+  }]
 }
 
 const render = (snk, brd) =>
-  brd.reduce((p, c, x) => {
+  Object.freeze(brd.reduce((p, c, x) => {
     return p.concat([c.reduce((p, c, y) => {
       if(isLocated(y, x, snk)) return p.concat(['O'])
       return p.concat([' '])
     }, [])])
-  }, [])
+  }, []))
 
-module.exports = { make, render, move }
+module.exports = { make, render, move, turn }
