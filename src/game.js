@@ -32,6 +32,14 @@ const getSpawnPoint = (x, y, w, h) => ({
 
 const collision = ([snk], apl) => snk.x === apl.x && snk.y === apl.y
 
+const gameOver = x => {
+  console.log()
+  console.log('GAME OVER !!!')
+  console.log('Be proud you reached level', x)
+  console.log()
+  process.exit(0)
+}
+
 const loop = (brd, snk, apl, scr) => {
   const board = brd || Board.make(ROWS, COLUMNS)
   const snake = snk ||Snake.make(2, 2)
@@ -44,6 +52,8 @@ const loop = (brd, snk, apl, scr) => {
 
   draw(Board.render(screen), border, apple.level)
   const collided = collision(snake, apple)
+
+  if(Snake.collision(snake)) return gameOver(apple.level)
 
   setTimeout(
     loop,

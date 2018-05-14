@@ -30,12 +30,12 @@ const move = (x, maxX, maxY) => x.reduce((p, x, i, xs) => {
 
 const turn = (x, y, [head, ...tail]) => {
   if(!head) return []
-  return [{
+  return Object.freeze([{
     x: head.x,
     y: head.y,
     dx: x,
     dy: y
-  }].concat(turn(head.dx, head.dy, tail))
+  }].concat(turn(head.dx, head.dy, tail)))
 }
 
 const getTile = (x, y, snk) => isLocated(x, y, snk) ? 'O' : ' '
@@ -55,4 +55,13 @@ const grow = (snk) => {
   }]))
 }
 
-module.exports = { make, render, move, turn, grow }
+const collision = ([head, ...tail]) => {
+  const f = ([bodyHead, ...bodyTail]) => {
+    if(!bodyHead) return false
+    if(head.x === bodyHead.x && head.y === bodyHead.y) return true
+    return f(bodyTail)
+  }
+  return f(tail)
+}
+
+module.exports = { make, render, move, turn, grow, collision }
