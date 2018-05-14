@@ -6,8 +6,9 @@ const Apple = require('./apple')
 const ROWS = 20
 const COLUMNS = 40
 
-const draw = (board, border) => {
+const draw = (board, border, level) => {
   console.log('\x1bc')
+  console.log('LEVEL', level)
   console.log(border)
   console.log(board)
   console.log(border)
@@ -41,14 +42,15 @@ const loop = (brd, snk, apl, scr) => {
   const snakeBoard = Snake.render(snake, board)
   const screen = Apple.render(apple, snakeBoard)
 
-  draw(Board.render(screen), border)
+  draw(Board.render(screen), border, apple.level)
+  const collided = collision(snake, apple)
 
   setTimeout(
     loop,
     100, 
     brd, 
-    Snake.move(input(snake), COLUMNS, ROWS), 
-    collision(snake, apple) ? Apple.make(spawn, apple.level + 1): apple, 
+    Snake.move(input(collided ? Snake.grow(snake) : snake), COLUMNS, ROWS), 
+    collided ? Apple.make(spawn, apple.level + 1): apple, 
     scr)
 }
 

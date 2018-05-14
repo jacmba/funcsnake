@@ -5,7 +5,7 @@ const make = (pos, level) => Object.freeze({
 })
 
 const getTile = (apl, x, y, def) =>
-  apl.x === x && apl.y === y ? apl.level : def
+  apl.x === x && apl.y === y ? 'X' : def
 
 const render = (apl, brd) =>
   Object.freeze(brd.reduce((p, c, y) => {
